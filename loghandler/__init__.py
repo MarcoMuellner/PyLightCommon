@@ -1,0 +1,1 @@
+from PyLightSupport.loghandler.loghandler import setup_logging
