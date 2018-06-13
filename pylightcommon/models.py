@@ -33,6 +33,11 @@ class UsedIO(models.Model):
     pin = models.ForeignKey(IO, on_delete=models.CASCADE, verbose_name='Pin nr')
     type = models.ForeignKey(IOType, on_delete=models.CASCADE, verbose_name='Type of IO')
     active = models.BooleanField(default=False,verbose_name="Active/Non Active IO")
-    connectedSystem = models.ForeignKey(ConnectedSystem, on_delete=models.CASCADE)
+    connectedSystem = models.ForeignKey(ConnectedSystem, on_delete=models.CASCADE,null=True)
     timeStart = models.TimeField(verbose_name="Start time of timer",null=True)
     timeEnd = models.TimeField(verbose_name="End time of timer",null=True)
+
+class ClientSettings(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Name of the pi client', default="")
+    serverAddress = models.CharField(max_length=255,verbose_name='Address of the server that set the ip of the pi' 
+                                                                 '',default="")
