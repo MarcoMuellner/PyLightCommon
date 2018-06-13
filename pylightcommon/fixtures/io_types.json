@@ -1,0 +1,23 @@
+[
+  {
+        "model":"pylightcommon.IOType",
+        "pk":0,
+        "fields": {
+          "ioType": "IOType.None"
+        }
+  },
+  {
+        "model":"pylightcommon.IOType",
+        "pk":1,
+        "fields": {
+          "ioType": "IOType.OUTPUT"
+        }
+  },
+  {
+        "model":"pylightcommon.IOType",
+        "pk":2,
+        "fields": {
+          "ioType": "IOType.INPUT"
+        }
+  }
+]
