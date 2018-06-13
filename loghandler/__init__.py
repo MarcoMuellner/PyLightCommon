@@ -1,1 +1,1 @@
-from PyLightSupport.loghandler.loghandler import setup_logging
+from PyLightCommon.loghandler.loghandler import setup_logging

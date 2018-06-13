@@ -2,7 +2,7 @@ import os
 import json
 import logging.config
 
-def setup_logging( default_path = os.path.join('PyLightSupport/loghandler/logsettings.json'), default_level=logging.DEBUG,):
+def setup_logging( default_path = os.path.join('PyLightCommon/loghandler/logsettings.json'), default_level=logging.DEBUG,):
     '''Setup logging configuration
 
     '''

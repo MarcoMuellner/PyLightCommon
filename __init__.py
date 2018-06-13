@@ -1,2 +1,1 @@
-from PyLightSupport.Singleton import *
-from PyLightSupport.pylightcommon import *
+from PyLightCommon.Singleton import *
