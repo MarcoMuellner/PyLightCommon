@@ -19,8 +19,10 @@ logger = logging.getLogger(__name__)
 
 def updater(rType: RunnerType, version: str):
     while True:
-        time.sleep(1)
+        time.sleep(45)
         data = requests.get(f"http://api.github.com/repos/muma7490/{rType.value}/git/refs/tags")
+        if data.status_code == 404:
+            continue
         data = json.loads(data.text)[0]
 
         # checking if no tags available
