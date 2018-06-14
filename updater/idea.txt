@@ -1,0 +1,9 @@
+- Start process with 2 modes: client and server. Code is pulled accordingly
+- Request github api periodically
+- If current version (file or something) is lower than newest tag on github, download file
+- Extract file
+- Kill worker Process
+- Replace files
+- Run install scripts
+- Run worker again
+- Kill Yourself
