@@ -41,3 +41,4 @@ class ClientSettings(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name of the pi client', default="")
     serverAddress = models.CharField(max_length=255,verbose_name='Address of the server that set the ip of the pi' 
                                                                  '',default="")
+    version = models.CharField(max_length=255,verbose_name="Version of the software",default="")
