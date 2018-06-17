@@ -11,9 +11,9 @@ class EnumIOType(Enum):
 from django.db import models
 
 class ConnectedSystem(models.Model):
-    name = models.CharField(max_length=255,verbose_name="Name of Client")
-    lastIP = models.GenericIPAddressField(verbose_name="Last known IP address of client")
-    lastMacAddress = models.CharField(max_length=255,verbose_name="Mac Address of client")
+    name = models.CharField(max_length=255,verbose_name="Name of Connection")
+    lastIP = models.GenericIPAddressField(verbose_name="Last known IP address of Connection")
+    lastMacAddress = models.CharField(max_length=255,verbose_name="Mac Address of Connection")
     serialNumber = models.CharField(max_length=255,verbose_name="Serial Number of Pi",unique=True)
     connected = models.BooleanField(default=False,verbose_name="Status of connection to pi")
     active = models.BooleanField(default=False,verbose_name="Status of Pi added in UI")
@@ -42,3 +42,4 @@ class ClientSettings(models.Model):
     serverAddress = models.CharField(max_length=255,verbose_name='Address of the server that set the ip of the pi' 
                                                                  '',default="")
     version = models.CharField(max_length=255,verbose_name="Version of the software",default="")
+    connectedToServer = models.BooleanField(verbose_name="Flag for connected to server",default=False)
