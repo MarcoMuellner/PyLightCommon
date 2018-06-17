@@ -6,6 +6,7 @@ cmd_set_output = ("SET_OUT",2)
 cmd_reset_outptut = ("RESET_OUT",2)
 cmd_shutdown_now = ("KILL_YOURSELF",1)
 cmd_hello = ("HELLO_SIR")
+cmd_alive = ("ARE WE LIVE?")
 
 #Client Messages
 cmd_all_io_list = ("ALL_IO_LIST",2)
