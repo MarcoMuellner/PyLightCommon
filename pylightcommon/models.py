@@ -43,3 +43,4 @@ class ClientSettings(models.Model):
                                                                  '',default="")
     version = models.CharField(max_length=255,verbose_name="Version of the software",default="")
     connectedToServer = models.BooleanField(verbose_name="Flag for connected to server",default=False)
+    searching = models.BooleanField(verbose_name="Searching flag for client",default=False)
