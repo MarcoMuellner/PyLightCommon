@@ -1,0 +1,11 @@
+[
+  {
+    "commando":"testCommando",
+    "response":"testResponse",
+    "type":"in",
+    "hooked_function":{
+      "1":"testFunction1",
+      "2":"testFunction2"
+    }
+  }
+]
