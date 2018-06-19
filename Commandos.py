@@ -8,6 +8,7 @@ cmd_shutdown_now = ("KILL_YOURSELF",1)
 cmd_hello = ("HELLO_SIR",)
 cmd_alive = ("ARE WE LIVE?",)
 cmd_ok = ("OK",)
+cmd_no_ok = ("NOT OK",)
 cmd_change_name = ("CHANGE NAME",)
 
 #Client Messages
