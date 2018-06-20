@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class CmdhandlerConfig(AppConfig):
-    name = 'cmdHandler'
+    name = 'PyLightCommon.cmdHandler'

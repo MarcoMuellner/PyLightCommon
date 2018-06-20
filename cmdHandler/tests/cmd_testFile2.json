@@ -1,0 +1,13 @@
+[
+  {
+    "commando":"testCommando2",
+    "response":"testResponse2",
+    "type":"out",
+    "method":"get",
+    "parameters":[
+      "testParameter1",
+      "testParameter2",
+      "testParameter3"
+    ]
+  }
+]

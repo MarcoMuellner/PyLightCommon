@@ -1,0 +1,19 @@
+[
+  {
+    "commando":"testCommando",
+    "response":"testResponse",
+    "type":"in",
+    "hooked_function":{
+      "2":"testFunction1",
+      "3":"testFunction2"
+    },
+    "model":"pylightcommon.ClientSettings",
+    "id":{
+      "1":"pk"
+    },
+    "fields":{
+      "2":"name",
+      "3":"serverAddress"
+    }
+  }
+]
