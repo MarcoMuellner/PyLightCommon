@@ -1,5 +1,10 @@
 import os
 from json import load
+from typing import Dict
+
+from django.conf import settings
+from django.http import HttpResponse
+from django.apps import apps
 
 def registerFunction():
     registry = {}
@@ -25,8 +30,13 @@ class CmdHandler:
             "fields":dict,
         }
         self.cmdDict = {}
+        self.cmdFilePath = settings.CMDPATH
 
-    def readJsonFile(self,file):
+        for filename in os.listdir(self.cmdFilePath):
+            tmpDict = self.readJsonFile(filename)
+            self.cmdDict[tmpDict["commando"]] = tmpDict
+
+    def readJsonFile(self,file:str) -> Dict:
         if os.path.exists(file):
             with open(file,'r') as f:
                 cmdDict = load(f)[0]
@@ -44,9 +54,19 @@ class CmdHandler:
         else:
             raise FileNotFoundError(f"File {file} was not found!")
 
-    def inCmd(self,cmd):
-        if cmd in self.cmdDict.keys():
-            pass
+    def inCmd(self, request:str) -> HttpResponse:
+        cmdData = request.split("||")
+        if cmdData[0] in self.cmdDict.keys() and self.cmdDict[cmdData[0]]["type"] == "in":
+            if "hooked_function" in self.cmdDict[cmdData[0]].keys():
+                for key,val in self.cmdDict[cmdData[0]]["hooked_function"].items():
+                    if val in cmd.all.keys():
+                        cmd.all[val]()
+
+
+
+
+
+
 
     def outCmd(self,cmd):
         pass
