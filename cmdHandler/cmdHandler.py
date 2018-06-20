@@ -46,13 +46,12 @@ class CmdHandler:
         self.createCmdAwareness(settings.BASE_DIR)
 
     def createCmdAwareness(self,path):
-        for i in os.listdir(path):
-            if os.path.isdir(i):
-                self.createCmdAwareness(i)
-
-            if os.path.isfile(i) and "cmd_tasks.py" in i:
-                moduleName = i.replace(settings.BASE_DIR,"").replace(".py","")
-                importlib.import_module(moduleName)
+        for root,dirs,files in os.walk(path):
+            for file in files:
+                if "cmd_tasks.py" == file:
+                    file = root+f"/{file}"
+                    moduleName = file.replace(settings.BASE_DIR+"/", "").replace(".py", "").replace("/",".")
+                    importlib.import_module(moduleName)
 
     def loadJsonFiles(self,path):
         for filename in os.listdir(path):
