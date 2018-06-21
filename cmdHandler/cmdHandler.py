@@ -131,7 +131,13 @@ class CmdHandler:
                 for key, val in self.cmdDict[cmdData[0]]["hooked_function"].items():
                     if val in cmd.all.keys():
                         try:
-                            cmd.all[val](cmdData[int(key)])
+                            functionString = "cmd.all[val]("
+                            for param in key.split(","):
+                                if functionString[-1] == "]":
+                                    functionString +=","
+                                functionString += f"cmdData[{param}]"
+                            functionString += ")"
+                            exec(functionString)
                         except IndexError:
                             raise IndexError(f"Failed to access item {key} in cmdData. Maybe commandstring to short?")
             return HttpResponse(self.cmdDict[cmdData[0]]["response"], content_type="text/plain")

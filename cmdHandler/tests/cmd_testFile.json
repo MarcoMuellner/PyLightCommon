@@ -5,7 +5,8 @@
     "type":"in",
     "hooked_function":{
       "2":"testFunction1",
-      "3":"testFunction2"
+      "3":"testFunction2",
+      "2,3":"testFunction3"
     },
     "model":{
       "name":"pylightcommon.ClientSettings",
