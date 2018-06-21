@@ -33,11 +33,15 @@ class CmdHandler:
         }
         self.optionalCommands = {
             "hooked_function": dict,
-            "model": str,
-            "fields": dict,
-            "id": dict,
+            "model": dict,
             "parameters": list,
             "method": str
+        }
+
+        self.modelCommands = {
+            "name":str,
+            "id":dict,
+            "fields":dict
         }
         self.cmdDict = {}
         self.cmdFilePath = settings.CMDPATH
@@ -82,6 +86,16 @@ class CmdHandler:
             except KeyError:
                 if not isinstance(value, self.optionalCommands[key]):
                     raise AttributeError(f"The type for {key} must be {self.obligatoryCommands[key]}")
+
+        if "model" in cmdDict.keys():
+            for parameter,instanceType in self.modelCommands.items():
+                if parameter not in cmdDict["model"].keys():
+                    raise AttributeError(f"Parameter {parameter} has to be in modelcommands when using model!")
+
+                if not isinstance(cmdDict["model"][parameter],instanceType):
+                    raise AttributeError(f"Parameter {parameter} has to be of type {instanceType}")
+
+
         return cmdDict
 
     def inCmd(self, request: str) -> HttpResponse:
@@ -89,17 +103,16 @@ class CmdHandler:
         if cmdData[0] in self.cmdDict.keys() and self.cmdDict[cmdData[0]]["type"] == "in":
 
             if "model" in self.cmdDict[cmdData[0]].keys():
-                app_name, model = self.cmdDict[cmdData[0]]["model"].split(".")
+                app_name, model = self.cmdDict[cmdData[0]]["model"]["name"].split(".")
                 model = apps.get_model(app_name, model)
 
                 modelFilter = {}
 
-                if "id" in self.cmdDict[cmdData[0]].keys():
-                    for key, val in self.cmdDict[cmdData[0]]["id"].items():
-                        if val == "pk":
-                            modelFilter[val] = int(cmdData[int(key)])
-                        else:
-                            modelFilter[val] = cmdData[int(key)]
+                for key, val in self.cmdDict[cmdData[0]]["model"]["id"].items():
+                    if val == "pk":
+                        modelFilter[val] = int(cmdData[int(key)])
+                    else:
+                        modelFilter[val] = cmdData[int(key)]
 
                 models = model.objects.filter(**modelFilter)
 
@@ -108,9 +121,9 @@ class CmdHandler:
                 else:
                     modelInstance = models[0]
 
-                if "fields" in self.cmdDict[cmdData[0]].keys():
-                    for key, val in self.cmdDict[cmdData[0]]["fields"].items():
-                        setattr(modelInstance, val, cmdData[int(key)])
+
+                for key, val in self.cmdDict[cmdData[0]]["model"]["fields"].items():
+                    setattr(modelInstance, val, cmdData[int(key)])
 
                 modelInstance.save()
 
@@ -127,9 +140,38 @@ class CmdHandler:
         cmd = kwargs["commando"]
         if cmd in self.cmdDict.keys() and self.cmdDict[cmd]["type"] == "out":
             richCmd = cmd
+
             if "parameters" in self.cmdDict[cmd].keys():
                 for parameter in self.cmdDict[cmd]["parameters"]:
                     richCmd += f"||{kwargs[parameter]}"
+
+            if "model" in self.cmdDict[cmd].keys():
+                app_name, model = self.cmdDict[cmd]["model"]["name"].split(".")
+                model = apps.get_model(app_name,model)
+
+                modelFilter = {}
+
+                for key, val in self.cmdDict[cmd]["model"]["id"].items():
+                    if val == "pk":
+                        modelFilter[val] = int(kwargs[key])
+                    else:
+                        modelFilter[val] = kwargs[key]
+
+                models = model.objects.filter(**modelFilter)
+
+                if len(models) == 0:
+                    modelInstance = model()
+                else:
+                    modelInstance = models[0]
+
+                for key, val in self.cmdDict[cmd]["model"]["setValue"].items():
+                    setattr(modelInstance, val, kwargs[key])
+
+                modelInstance.save()
+
+                for _,value in self.cmdDict[cmd]["model"]["fields"].items():
+                    richCmd +=f"||{getattr(modelInstance,value)}"
+
             if self.cmdDict[cmd]["method"] == "get":
                 response = requests.get(f"http://{address}:{port}/cmdHandler/", params={"comamndo": richCmd})
             elif self.cmdDict[cmd]["method"] == "post":

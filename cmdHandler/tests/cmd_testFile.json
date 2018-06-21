@@ -7,13 +7,15 @@
       "2":"testFunction1",
       "3":"testFunction2"
     },
-    "model":"pylightcommon.ClientSettings",
-    "id":{
-      "1":"pk"
-    },
-    "fields":{
-      "2":"name",
-      "3":"serverAddress"
+    "model":{
+      "name":"pylightcommon.ClientSettings",
+      "id":{
+        "1":"pk"
+      },
+      "fields":{
+        "2":"name",
+        "3":"serverAddress"
+      }
     }
   }
 ]

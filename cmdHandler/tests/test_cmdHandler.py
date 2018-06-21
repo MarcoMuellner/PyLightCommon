@@ -47,9 +47,10 @@ def testCmdOut(moduleSetup:CmdHandler):
     def urlMock(url,request):
         return "testResponse2"
 
+    ClientSettings(name="temp",serverAddress="127.0.0.1").save()
     with HTTMock(urlMock):
         moduleSetup.outCmd(address="test.com",port=8000
                            ,commando="testCommando2"
-                           ,testParameter1="test1"
+                           ,testParameter1="1"
                            ,testParameter2="test2"
                            ,testParameter3="test3")

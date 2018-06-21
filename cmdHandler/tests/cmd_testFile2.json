@@ -1,13 +1,25 @@
 [
   {
-    "commando":"testCommando2",
-    "response":"testResponse2",
-    "type":"out",
-    "method":"get",
-    "parameters":[
+    "commando": "testCommando2",
+    "response": "testResponse2",
+    "type": "out",
+    "method": "get",
+    "parameters": [
       "testParameter1",
       "testParameter2",
       "testParameter3"
-    ]
+    ],
+    "model": {
+      "name": "pylightcommon.ClientSettings",
+      "id": {
+        "testParameter1": "pk"
+      },
+      "setValue":{
+        "testParameter2": "name"
+      },
+      "fields": {
+        "3": "serverAddress"
+      }
+    }
   }
 ]
