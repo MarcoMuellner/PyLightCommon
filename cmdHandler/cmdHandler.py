@@ -7,6 +7,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.apps import apps
 import importlib
+from requests.exceptions import ConnectionError
 
 
 def registerFunction():
@@ -177,13 +178,16 @@ class CmdHandler:
 
                 for _,value in self.cmdDict[cmd]["model"]["fields"].items():
                     richCmd +=f"||{getattr(modelInstance,value)}"
-
-            if self.cmdDict[cmd]["method"] == "get":
-                response = requests.get(f"http://{address}:{port}/cmdHandler/", params={"comamndo": richCmd})
-            elif self.cmdDict[cmd]["method"] == "post":
-                response = requests.post(f"http://{address}:{port}/cmdHandler", data={"commando": richCmd})
-            else:
-                raise ValueError(f"Request type must be post or get. Method was {self.cmdDict[cmd]['method']}")
+            try:
+                if self.cmdDict[cmd]["method"] == "get":
+                    response = requests.get(f"http://{address}:{port}/cmdHandler/", params={"comamndo": richCmd})
+                elif self.cmdDict[cmd]["method"] == "post":
+                    response = requests.post(f"http://{address}:{port}/cmdHandler", data={"commando": richCmd})
+                else:
+                    raise ValueError(f"Request type must be post or get. Method was {self.cmdDict[cmd]['method']}")
+            except :
+                print("Failed to send data!")
+                return HttpResponse()
 
             if response.text != self.cmdDict[cmd]["response"]:
                 raise IOError(
@@ -195,5 +199,5 @@ class CmdHandler:
 handler = CmdHandler()
 
 
-def sendCommand(address="127.0.0.1", port="8000", **kwargs):
+def sendCommand(address="127.0.0.1", port=8080, **kwargs):
     handler.outCmd(address, port, **kwargs)
