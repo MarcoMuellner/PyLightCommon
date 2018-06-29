@@ -79,7 +79,7 @@ class CmdHandler:
     def _validateDict(self,cmdDict):
         for key, value in cmdDict.items():
             if key not in self.obligatoryCommands.keys() and key not in self.optionalCommands.keys():
-                raise AttributeError(f"The definition of the key {key} in file {file} is not an available"
+                raise AttributeError(f"The definition of the key {key} in file is not an available"
                                      f"command.")
             try:
                 if not isinstance(value, self.obligatoryCommands[key]):
@@ -199,5 +199,5 @@ class CmdHandler:
 handler = CmdHandler()
 
 
-def sendCommand(address="127.0.0.1", port=8080, **kwargs):
-    handler.outCmd(address, port, **kwargs)
+def sendCommand(address="127.0.0.1", port="8000", **kwargs):
+    return handler.outCmd(address, port, **kwargs)
