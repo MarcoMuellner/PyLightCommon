@@ -6,6 +6,7 @@ import requests
 from django.conf import settings
 from django.http import HttpResponse
 from django.apps import apps
+from django.db import models as djangoModels
 import importlib
 from requests.exceptions import ConnectionError
 
@@ -177,12 +178,18 @@ class CmdHandler:
                 modelInstance.save()
 
                 for _,value in self.cmdDict[cmd]["model"]["fields"].items():
-                    richCmd +=f"||{getattr(modelInstance,value)}"
+                    richCmd +="||"
+                    tmpAttr = modelInstance
+                    for parts in value.split("."):
+                        tmpAttr = getattr(tmpAttr,parts)
+                        if not isinstance(tmpAttr,djangoModels.Model):
+                            richCmd+=f"{tmpAttr}"
+                            break
             try:
                 if self.cmdDict[cmd]["method"] == "get":
-                    response = requests.get(f"http://{address}:{port}/cmdHandler/", params={"comamndo": richCmd})
+                    response = requests.get(f"http://{address}:{port}/cmdHandler", params={"comamndo": richCmd})
                 elif self.cmdDict[cmd]["method"] == "post":
-                    response = requests.post(f"http://{address}:{port}/cmdHandler", data={"commando": richCmd})
+                    response = requests.post(f"http://{address}:{port}/cmdHandler/", data={"commando": richCmd})
                 else:
                     raise ValueError(f"Request type must be post or get. Method was {self.cmdDict[cmd]['method']}")
             except :
